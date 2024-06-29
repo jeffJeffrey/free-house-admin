@@ -49,7 +49,7 @@ const Sidebar = () => {
           <ListItemText primary="Annonce" sx={{ color: '#283593' }} />
         </ListItem>
         <Divider />
-        <Box sx={{ mb: 10 }} />
+        <Box sx={{ mb: 30 }} />
         <Divider />
         <ListItem button onClick={handleAuthClick}>
           <ListItemIcon><LockIcon sx={{ color: '#283593' }} /></ListItemIcon>
