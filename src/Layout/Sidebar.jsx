@@ -1,4 +1,3 @@
-// Sidebar.jsx
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -26,53 +25,53 @@ const Sidebar = () => {
         '& .MuiDrawer-paper': {
           width: 240,
           boxSizing: 'border-box',
-          backgroundColor: '#ffffff', // Fond de la barre latérale en blanc
-          color: '#283593', // Couleur du texte dans la barre latérale en bleu foncé
+          background: 'linear-gradient(to bottom, #283593, #1e88e5)', // Dégradé linéaire
+          color: '#ffffff', // Couleur du texte dans la barre latérale en blanc
         },
       }}
     >
       <Box sx={{ padding: 2 }}>
-        <Typography variant="h6" sx={{ color: '#283593' }}>Dashdark X</Typography>
+        <Typography variant="h6" sx={{ color: '#ffffff' }}>Dashdark X</Typography>
       </Box>
-      <Divider />
+      <Divider sx={{ backgroundColor: '#ffffff' }} />
       <List>
         <ListItem button component={Link} to="/dashboard">
-          <ListItemIcon><DashboardIcon sx={{ color: '#283593' }} /></ListItemIcon>
-          <ListItemText primary="Dashboard" sx={{ color: '#283593' }} />
+          <ListItemIcon><DashboardIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
+          <ListItemText primary="Dashboard" sx={{ color: '#ffffff' }} />
         </ListItem>
         <ListItem button component={Link} to="/users">
-          <ListItemIcon><GroupIcon sx={{ color: '#283593' }} /></ListItemIcon>
-          <ListItemText primary="Users" sx={{ color: '#283593' }} />
+          <ListItemIcon><GroupIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
+          <ListItemText primary="Users" sx={{ color: '#ffffff' }} />
         </ListItem>
         <ListItem button component={Link} to="/anonce">
-          <ListItemIcon><AnnouncementIcon sx={{ color: '#283593' }} /></ListItemIcon>
-          <ListItemText primary="Annonce" sx={{ color: '#283593' }} />
+          <ListItemIcon><AnnouncementIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
+          <ListItemText primary="Annonce" sx={{ color: '#ffffff' }} />
         </ListItem>
-        <Divider />
+        <Divider sx={{ backgroundColor: '#ffffff' }} />
         <Box sx={{ mb: 30 }} />
-        <Divider />
+        <Divider sx={{ backgroundColor: '#ffffff' }} />
         <ListItem button onClick={handleAuthClick}>
-          <ListItemIcon><LockIcon sx={{ color: '#283593' }} /></ListItemIcon>
-          <ListItemText primary="Authentification" sx={{ color: '#283593' }} />
-          {authOpen ? <ExpandLess /> : <ExpandMore />}
+          <ListItemIcon><LockIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
+          <ListItemText primary="Authentification" sx={{ color: '#ffffff' }} />
+          {authOpen ? <ExpandLess sx={{ color: '#ffffff' }} /> : <ExpandMore sx={{ color: '#ffffff' }} />}
         </ListItem>
         <Collapse in={authOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem button component={Link} to="/login" sx={{ pl: 4 }}>
-              <ListItemText primary="Login" sx={{ color: '#283593' }} />
+              <ListItemText primary="Login" sx={{ color: '#ffffff' }} />
             </ListItem>
             <ListItem button component={Link} to="/signup" sx={{ pl: 4 }}>
-              <ListItemText primary="Signup" sx={{ color: '#283593' }} />
+              <ListItemText primary="Signup" sx={{ color: '#ffffff' }} />
             </ListItem>
           </List>
         </Collapse>
       </List>
-      <Divider />
+      <Divider sx={{ backgroundColor: '#ffffff' }} />
       <Box sx={{ flexGrow: 1 }} />
-      <Divider />
+      <Divider sx={{ backgroundColor: '#ffffff' }} />
       <Box sx={{ padding: 2 }}>
-        <Typography variant="body2" sx={{ color: '#283593' }}>Admin connecté</Typography>
-        <Typography variant="body2" sx={{ color: '#283593', ml: 1 }}>Aloys</Typography>
+        <Typography variant="body2" sx={{ color: '#ffffff' }}>Admin connecté</Typography>
+        <Typography variant="body2" sx={{ color: '#ffffff', ml: 1 }}>Aloys</Typography>
       </Box>
     </Drawer>
   );

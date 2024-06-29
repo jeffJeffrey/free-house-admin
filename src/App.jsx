@@ -6,6 +6,7 @@ import AnnoncePage from './pages/AnnoncePage';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+// import UserDetails from './pages/UserDetails';
 import UserPage from './pages/UserPage'; // Assurez-vous que le chemin est correct
 
 const App = () => {
@@ -15,12 +16,13 @@ const App = () => {
         <Sidebar />
         <main style={{ flexGrow: 1, padding: 20}}>
           <Routes>
-          <Route path="/" element={<Dashboard/>} />
+            <Route path="/" element={<Dashboard/>} />
             <Route path="/users" element={<UserPage />} />
             <Route path="/dashboard" element={<Dashboard/>} />
             <Route path="/anonce" element={<AnnoncePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup/>} />
+            {/* <Route path="/userDetails/:id" element={<UserDetails/>}/> */}
             {/* Autres routes ici si nécessaire */}
           </Routes>
         </main>

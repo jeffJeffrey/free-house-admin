@@ -10,8 +10,6 @@ const Dashboard = () => {
         flexDirection: 'column',
         minHeight: '100vh',
         backgroundColor: '#ffffff',
-        marginLeft: '3px', // Assuming sidebar width is 240px
-        width: '140%', // Adjust to use remaining width
       }}
     >
       <AppBar position="static" sx={{ backgroundColor: '#283593' }}>
@@ -19,6 +17,10 @@ const Dashboard = () => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Dashboard
           </Typography>
+          {/* Icon for Language */}
+          <IconButton color="inherit">
+            <Typography variant="body2" sx={{ color: '#ffffff', marginRight: 1 }}>FR</Typography>
+          </IconButton>
           <IconButton color="inherit">
             <Notifications />
           </IconButton>
@@ -89,7 +91,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
 
-        {/* Adjusted Recent Users section */}
+        {/* Section "Recent Users" */}
         <Box mt={10} mb={4}>
           <Typography variant="h6" mb={2} sx={{ color: '#283593' }}>
             Recent Users

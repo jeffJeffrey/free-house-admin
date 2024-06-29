@@ -1,10 +1,10 @@
-// UserPage.jsx
+import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import AddIcon from "@mui/icons-material/Add";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { Component } from "react";
+import { useNavigate } from "react-router-dom";
 
 class UserPage extends Component {
   constructor(props) {
@@ -15,23 +15,19 @@ class UserPage extends Component {
   }
 
   componentDidMount() {
-    // Remplacez par un appel API réel pour récupérer les utilisateurs
     this.setState({
       users: [
         { id: 1, nom: "Utilisateur 1", adresse: "Adresse 1" },
         { id: 2, nom: "Utilisateur 2", adresse: "Adresse 2" },
-        // Ajoutez d'autres utilisateurs ici
       ],
     });
   }
 
   handleViewProfile = (id) => {
-    // Gérer l'affichage du profil utilisateur
-    console.log("Voir profil de l'utilisateur avec ID:", id);
+    this.props.navigate(`/userDetails/${id}`);
   };
 
   handleDeleteUser = (id) => {
-    // Gérer la suppression de l'utilisateur
     console.log("Supprimer l'utilisateur avec ID:", id);
   };
 
@@ -44,7 +40,7 @@ class UserPage extends Component {
       {
         field: "actions",
         headerName: "Actions",
-        width: 290, // Ajustement de la largeur pour inclure les boutons
+        width: 290,
         renderCell: (params) => (
           <Box sx={{ display: "flex", gap: 1 }}>
             <Button
@@ -68,43 +64,43 @@ class UserPage extends Component {
     ];
 
     return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh", // Occuper toute la hauteur de la page
-          backgroundColor: "#ffffff",
-        }}
-      >
-        <Box sx={{ p: 4 }}>
-          <Typography variant="h4" sx={{ mb: 3, color: '#283593' }}>
-            Liste des utilisateurs
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-            <Box sx={{ flexGrow: 1 }}>
-              <TextField
-                variant="outlined"
-                label="Rechercher"
-                fullWidth
-                // Ajouter ici la fonctionnalité de recherche
-              />
+      <Grid container sx={{ minHeight: "100vh", backgroundColor: "#ffffff" }} spacing={3}>
+        <Grid item xs={12}>
+          <Box sx={{ p: 4 }}>
+            <Typography variant="h4" sx={{ mb: 3, color: "#283593" }}>
+              Liste des utilisateurs
+            </Typography>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={8}>
+                <TextField
+                  variant="outlined"
+                  label="Rechercher"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  fullWidth
+                >
+                  Ajouter
+                </Button>
+              </Grid>
+            </Grid>
+            <Box sx={{ height: "calc(100vh - 240px)", width: "100%" }}>
+              <DataGrid rows={users} columns={columns} pageSize={5} />
             </Box>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{ ml: 2 }}
-              // Ajouter ici la fonctionnalité pour le bouton Ajouter
-            >
-              Ajouter
-            </Button>
           </Box>
-          <Box sx={{ height: "calc(100vh - 240px)", width: "100%" }}>
-            <DataGrid rows={users} columns={columns} pageSize={5} />
-          </Box>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     );
   }
 }
 
-export default UserPage;
+const UserPageWithNavigate = (props) => {
+  const navigate = useNavigate();
+  return <UserPage {...props} navigate={navigate} />;
+};
+
+export default UserPageWithNavigate;
