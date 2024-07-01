@@ -71,7 +71,7 @@ class LogementPage extends Component {
             <Typography variant="h4" sx={{ mb: 3, color: "#283593" }}>
               Liste des logements
             </Typography>
-            <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={2} alignItems="center" marginTop={2}>
               <Grid item xs={12} sm={8}>
                 <TextField
                   variant="outlined"
@@ -89,7 +89,7 @@ class LogementPage extends Component {
                 </Button>
               </Grid>
             </Grid>
-            <Box sx={{ height: "calc(100vh - 240px)", width: "100%" }}>
+            <Box sx={{ height: "calc(100vh - 240px)", width: "100%" }} marginTop={5}>
               <DataGrid rows={logements} columns={columns} pageSize={5} />
             </Box>
           </Box>

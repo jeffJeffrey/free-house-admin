@@ -88,7 +88,7 @@ class UserPage extends Component {
                 </Button>
               </Grid>
             </Grid>
-            <Box sx={{ height: "calc(100vh - 240px)", width: "100%" }}>
+            <Box sx={{ height: "calc(100vh - 240px)", width: "100%" }} marginTop={5}>
               <DataGrid rows={users} columns={columns} pageSize={5} />
             </Box>
           </Box>
