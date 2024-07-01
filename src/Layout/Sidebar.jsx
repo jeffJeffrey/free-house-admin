@@ -10,9 +10,19 @@ import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const [authOpen, setAuthOpen] = useState(false);
+  const [validationOpen, setValidationOpen] = useState(false);
+  const [annonceOpen, setAnnonceOpen] = useState(false);
 
   const handleAuthClick = () => {
     setAuthOpen(!authOpen);
+  };
+
+  const handleValidationClick = () => {
+    setValidationOpen(!validationOpen);
+  };
+
+  const handleAnnonceClick = () => {
+    setAnnonceOpen(!annonceOpen);
   };
 
   return (
@@ -25,8 +35,8 @@ const Sidebar = () => {
         '& .MuiDrawer-paper': {
           width: 240,
           boxSizing: 'border-box',
-          background: 'linear-gradient(to bottom, #283593, #1e88e5)', // Dégradé linéaire
-          color: '#ffffff', // Couleur du texte dans la barre latérale en blanc
+          background: 'linear-gradient(to bottom, #283593, #1e88e5)',
+          color: '#ffffff',
         },
       }}
     >
@@ -43,14 +53,39 @@ const Sidebar = () => {
           <ListItemIcon><GroupIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
           <ListItemText primary="Users" sx={{ color: '#ffffff' }} />
         </ListItem>
-        <ListItem button component={Link} to="/anonce">
+        <ListItem button onClick={handleAnnonceClick}>
           <ListItemIcon><AnnouncementIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
           <ListItemText primary="Annonce" sx={{ color: '#ffffff' }} />
+          {annonceOpen ? <ExpandLess sx={{ color: '#ffffff' }} /> : <ExpandMore sx={{ color: '#ffffff' }} />}
         </ListItem>
+        <Collapse in={annonceOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button component={Link} to="/anonce/logement" sx={{ pl: 4 }}>
+              <ListItemText primary="Logement" sx={{ color: '#ffffff' }} />
+            </ListItem>
+            <ListItem button component={Link} to="/anonce/service" sx={{ pl: 4 }}>
+              <ListItemText primary="Service" sx={{ color: '#ffffff' }} />
+            </ListItem>
+          </List>
+        </Collapse>
         <Divider sx={{ backgroundColor: '#ffffff' }} />
-        <Box sx={{ mb: 30 }} />
-        <Divider sx={{ backgroundColor: '#ffffff' }} />
+        <ListItem button onClick={handleValidationClick}>
+          <ListItemIcon><LockIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
+          <ListItemText primary="Validation" sx={{ color: '#ffffff' }} />
+          {validationOpen ? <ExpandLess sx={{ color: '#ffffff' }} /> : <ExpandMore sx={{ color: '#ffffff' }} />}
+        </ListItem>
+        <Collapse in={validationOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button component={Link} to="/validation/logement" sx={{ pl: 4 }}>
+              <ListItemText primary="Logement" sx={{ color: '#ffffff' }} />
+            </ListItem>
+            <ListItem button component={Link} to="/validation/service" sx={{ pl: 4 }}>
+              <ListItemText primary="Service" sx={{ color: '#ffffff' }} />
+            </ListItem>
+          </List>
+        </Collapse>
         <ListItem button onClick={handleAuthClick}>
+          <Divider sx={{ backgroundColor: '#ffffff' }} />
           <ListItemIcon><LockIcon sx={{ color: '#ffffff' }} /></ListItemIcon>
           <ListItemText primary="Authentification" sx={{ color: '#ffffff' }} />
           {authOpen ? <ExpandLess sx={{ color: '#ffffff' }} /> : <ExpandMore sx={{ color: '#ffffff' }} />}

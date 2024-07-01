@@ -6,37 +6,38 @@ import { DataGrid } from '@mui/x-data-grid';
 import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-class AnnoncePage extends Component {
+class LogementPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      annonces: [],
+      logements: [],
     };
   }
 
   componentDidMount() {
     this.setState({
-      annonces: [
-        { id: 1, titre: 'Annonce 1', description: 'Description de l\'annonce 1' },
-        { id: 2, titre: 'Annonce 2', description: 'Description de l\'annonce 2' },
+      logements: [
+        { id: 1, titre: 'Logement 1', localisation: 'Localisation 1', typeLogement: 'Type 1' },
+        { id: 2, titre: 'Logement 2', localisation: 'Localisation 2', typeLogement: 'Type 2' },
       ],
     });
   }
 
-  handleViewAnnonce = (id) => {
-    this.props.navigate(`/annonceDetails/${id}`);
+  handleViewLogement = (id) => {
+    this.props.navigate(`/logementDetails/${id}`);
   };
 
-  handleDeleteAnnonce = (id) => {
-    console.log("Supprimer annonce avec ID:", id);
+  handleDeleteLogement = (id) => {
+    console.log("Supprimer logement avec ID:", id);
   };
 
   render() {
-    const { annonces } = this.state;
+    const { logements } = this.state;
 
     const columns = [
       { field: 'titre', headerName: 'Titre', width: 200 },
-      { field: 'description', headerName: 'Description', width: 400 },
+      { field: 'localisation', headerName: 'Localisation', width: 200 },
+      { field: 'typeLogement', headerName: 'Type de Logement', width: 200 },
       {
         field: 'actions',
         headerName: 'Actions',
@@ -46,7 +47,7 @@ class AnnoncePage extends Component {
             <Button
               variant="contained"
               startIcon={<VisibilityIcon />}
-              onClick={() => this.handleViewAnnonce(params.id)}
+              onClick={() => this.handleViewLogement(params.id)}
             >
               Voir plus
             </Button>
@@ -54,7 +55,7 @@ class AnnoncePage extends Component {
               variant="contained"
               color="error"
               startIcon={<DeleteIcon />}
-              onClick={() => this.handleDeleteAnnonce(params.id)}
+              onClick={() => this.handleDeleteLogement(params.id)}
             >
               Supprimer
             </Button>
@@ -68,7 +69,7 @@ class AnnoncePage extends Component {
         <Grid item xs={12}>
           <Box sx={{ p: 4 }}>
             <Typography variant="h4" sx={{ mb: 3, color: "#283593" }}>
-              Liste des annonces
+              Liste des logements
             </Typography>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={12} sm={8}>
@@ -89,7 +90,7 @@ class AnnoncePage extends Component {
               </Grid>
             </Grid>
             <Box sx={{ height: "calc(100vh - 240px)", width: "100%" }}>
-              <DataGrid rows={annonces} columns={columns} pageSize={5} />
+              <DataGrid rows={logements} columns={columns} pageSize={5} />
             </Box>
           </Box>
         </Grid>
@@ -98,9 +99,9 @@ class AnnoncePage extends Component {
   }
 }
 
-const AnnoncePageWithNavigate = (props) => {
+const LogementPageWithNavigate = (props) => {
   const navigate = useNavigate();
-  return <AnnoncePage {...props} navigate={navigate} />;
+  return <LogementPage {...props} navigate={navigate} />;
 };
 
-export default AnnoncePageWithNavigate;
+export default LogementPageWithNavigate;

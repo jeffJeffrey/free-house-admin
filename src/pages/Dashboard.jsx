@@ -8,8 +8,9 @@ const Dashboard = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
+        minHeight: '100vh',  // Utilisation de minHeight pour s'assurer que la page s'étend sur toute la hauteur de la fenêtre
         backgroundColor: '#ffffff',
+        width: '110vh',
       }}
     >
       <AppBar position="static" sx={{ backgroundColor: '#283593' }}>
