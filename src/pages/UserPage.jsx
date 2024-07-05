@@ -5,6 +5,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
+import { allUsers } from "../api";
 
 class UserPage extends Component {
   constructor(props) {
@@ -15,12 +16,9 @@ class UserPage extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      users: [
-        { id: 1, nom: "Utilisateur 1", adresse: "Adresse 1" },
-        { id: 2, nom: "Utilisateur 2", adresse: "Adresse 2" },
-      ],
-    });
+    allUsers().then((users) => {
+      this.setState({ users });
+    })
   }
 
   handleViewProfile = (id) => {
