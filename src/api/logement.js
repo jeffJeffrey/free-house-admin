@@ -12,7 +12,7 @@ export async function allLogements() {
         return Promise.reject(error);
     }
 }
-export async function createlogement(data) {
+export async function createLogement(data) {
     try {
         const response = await fetchWithAuth(`${API_URL}/logements`, {
             method: 'POST',
@@ -30,24 +30,8 @@ export async function createlogement(data) {
     }
 }
 
-export async function login(data) {
-    try {
-        const response = await fetch(`${API_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
 
-        const json = await response.json();
-        if (!response.ok) return Promise.reject(response)
-        return json;
-    } catch (error) {
-        return Promise.reject(error);
-    }
-}
-export async function updatelogement(id, data) {
+export async function updateLogement(id, data) {
     try {
         const response = await fetchWithAuth(`${API_URL}/logements/${id}`, {
             method: 'PUT',
@@ -65,7 +49,7 @@ export async function updatelogement(id, data) {
     }
 }
 
-export async function retrievelogement(id) {
+export async function retrieveLogement(id) {
     try {
         const response = await fetchWithAuth(`${API_URL}/logements/${id}`)
 
@@ -77,7 +61,7 @@ export async function retrievelogement(id) {
     }
 }
 
-export async function destroylogement(id) {
+export async function destroyLogement(id) {
     try {
         const response = await fetchWithAuth(`${API_URL}/logements/${id}`, {
             method: 'DELETE',
