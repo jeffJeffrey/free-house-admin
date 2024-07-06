@@ -5,6 +5,7 @@ import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { allServices } from '../api';
 
 class ServicePage extends Component {
   constructor(props) {
@@ -15,11 +16,12 @@ class ServicePage extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      services: [
-        { id: 1, typeService: 'Service 1', description: 'Description 1' },
-        { id: 2, typeService: 'Service 2', description: 'Description 2' },
-      ],
+    allServices().then((services) => {
+      const servicesAvecStatut = services.map(service => ({
+        ...service,
+        statutPublication: service.publier ? 'Publié' : 'Non publié'
+      }));
+      this.setState({ services: servicesAvecStatut });
     });
   }
 
@@ -35,8 +37,18 @@ class ServicePage extends Component {
     const { services } = this.state;
 
     const columns = [
-      { field: 'typeService', headerName: 'Type de Service', width: 200 },
-      { field: 'description', headerName: 'Description', width: 400 },
+      { field: 'titre', headerName: 'Titre', width: 200 },
+      { field: 'description', headerName: 'Description', width: 200 },
+      { 
+        field: 'statutPublication', 
+        headerName: 'Statut', 
+        width: 200,
+        renderCell: (params) => (
+          <Typography color={params.value === 'Publié' ? 'green' : 'red'}>
+            {params.value}
+          </Typography>
+        ),
+      },
       {
         field: 'actions',
         headerName: 'Actions',

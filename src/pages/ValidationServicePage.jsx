@@ -1,17 +1,26 @@
+// ValidationServicePage.jsx
+
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { allServices } from '../api'; 
 const ValidationServicePage = () => {
   const [services, setServices] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setServices([
-      { id: 1, titre: 'Service 1', description: 'Description 1', dateAnnonce: new Date(), adminValid: false },
-      { id: 2, titre: 'Service 2', description: 'Description 2', dateAnnonce: new Date(), adminValid: false },
-    ]);
+    const fetchServices = async () => {
+      try {
+        const servicesFromApi = await allServices();
+        setServices(servicesFromApi.filter(service => !service.adminValid));
+      } catch (error) {
+        // Gestion des erreurs si nécessaire
+        console.error('Erreur lors de la récupération des services:', error);
+      }
+    };
+
+    fetchServices();
   }, []);
 
   const handleValidate = (id) => {

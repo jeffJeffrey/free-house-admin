@@ -5,21 +5,25 @@ import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { allLogements, allMedias } from '../api';
 
 class LogementPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       logements: [],
+      medias: [],
     };
   }
 
   componentDidMount() {
-    this.setState({
-      logements: [
-        { id: 1, titre: 'Logement 1', localisation: 'Localisation 1', typeLogement: 'Type 1' },
-        { id: 2, titre: 'Logement 2', localisation: 'Localisation 2', typeLogement: 'Type 2' },
-      ],
+    Promise.all([allLogements(), allMedias()]).then(([logements, medias]) => {
+      const logementsAvecStatut = logements.map(logement => ({
+        ...logement,
+        statutPublication: logement.publier ? 'Publié' : 'Non publié'
+      }));
+
+      this.setState({ logements: logementsAvecStatut, medias });
     });
   }
 
@@ -37,7 +41,16 @@ class LogementPage extends Component {
     const columns = [
       { field: 'titre', headerName: 'Titre', width: 200 },
       { field: 'localisation', headerName: 'Localisation', width: 200 },
-      { field: 'typeLogement', headerName: 'Type de Logement', width: 200 },
+      { 
+        field: 'statutPublication', 
+        headerName: 'Statut', 
+        width: 200,
+        renderCell: (params) => (
+          <Typography color={params.value === 'Publié' ? 'green' : 'red'}>
+            {params.value}
+          </Typography>
+        ),
+      },
       {
         field: 'actions',
         headerName: 'Actions',

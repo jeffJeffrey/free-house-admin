@@ -61,6 +61,32 @@ export async function retrieveLogement(id) {
     }
 }
 
+export async function allMedias() {
+    try {
+        const response = await fetchWithAuth(`${API_URL}/logementMedias`);
+
+        const medias = await response.json();
+        if (!response.ok) return Promise.reject(response);
+        return medias;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export async function retrieveMedias(logementId) {
+    try {
+        const response = await fetchWithAuth(`${API_URL}/logementMedias/logement/${logementId}`);
+
+        const medias = await response.json();
+        if (!response.ok) return Promise.reject(response);
+        return medias;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+
+
 export async function destroyLogement(id) {
     try {
         const response = await fetchWithAuth(`${API_URL}/logements/${id}`, {

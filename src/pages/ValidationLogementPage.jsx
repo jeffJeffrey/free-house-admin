@@ -2,26 +2,32 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { allLogements } from '../api';
 
 const ValidationLogementPage = () => {
   const [logements, setLogements] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLogements([
-      { id: 1, titre: 'Logement 1', localisation: 'Localisation 1', typeLogement: 'Type 1' },
-      { id: 2, titre: 'Logement 2', localisation: 'Localisation 2', typeLogement: 'Type 2' },
-    ]);
+    // Appel à la fonction allLogements pour récupérer les données depuis la base de données
+    allLogements().then((logementsAvecStatut) => {
+      setLogements(logementsAvecStatut.filter(logement => !logement.adminValid));
+    }).catch(error => {
+      console.error('Erreur lors de la récupération des logements:', error);
+      // Gestion des erreurs si nécessaire
+    });
   }, []);
 
   const handleValidate = (id) => {
+    // Logique pour valider le logement avec l'ID donné
     console.log("Logement validé avec ID:", id);
-    // Logique pour valider le logement
+    // Mettre à jour le statut adminValid à true côté serveur (non implémenté ici)
   };
 
   const handleReject = (id) => {
+    // Logique pour rejeter le logement avec l'ID donné (optionnel)
     console.log("Logement rejeté avec ID:", id);
-    // Logique pour rejeter le logement
+    // Mettre en œuvre la logique de rejet côté serveur (non implémenté ici)
   };
 
   const handleViewLogement = (id) => {
@@ -29,9 +35,8 @@ const ValidationLogementPage = () => {
   };
 
   const columns = [
-    { field: 'titre', headerName: 'Titre', width: 150 },
-    { field: 'localisation', headerName: 'Localisation', width: 150 },
-    { field: 'typeLogement', headerName: 'Type', width: 150 },
+    { field: 'titre', headerName: 'Titre', width: 200 },
+    { field: 'localisation', headerName: 'Localisation', width: 300 },
     {
       field: 'actions',
       headerName: 'Actions',

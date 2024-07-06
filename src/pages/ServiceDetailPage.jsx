@@ -4,58 +4,35 @@ import BuildIcon from '@mui/icons-material/Build';
 import { Avatar, Box, Grid, IconButton, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-// Simulated data source with image URLs
-const mockServices = [
-  {
-    id: 1,
-    nom: "Service 1",
-    description: "Description du Service 1",
-    localisation: "Localisation 1",
-    typeService: "Type 1",
-    images: [
-      "https://via.placeholder.com/800x400?text=Image+1",
-      "https://via.placeholder.com/800x400?text=Image+2",
-      "https://via.placeholder.com/800x400?text=Image+3",
-      "https://via.placeholder.com/800x400?text=Image+4",
-      "https://via.placeholder.com/800x400?text=Image+5",
-      "https://via.placeholder.com/800x400?text=Image+6"
-    ],
-  },
-  {
-    id: 2,
-    nom: "Service 2",
-    description: "Description du Service 2",
-    localisation: "Localisation 2",
-    typeService: "Type 2",
-    images: [
-      "https://via.placeholder.com/800x400?text=Image+7",
-      "https://via.placeholder.com/800x400?text=Image+8",
-      "https://via.placeholder.com/800x400?text=Image+9",
-      "https://via.placeholder.com/800x400?text=Image+10",
-      "https://via.placeholder.com/800x400?text=Image+11",
-      "https://via.placeholder.com/800x400?text=Image+12"
-    ],
-  },
-];
+import { retrieveService, retrieveServiceMedias } from '../api';
 
 const ServiceDetailPage = () => {
   const { id } = useParams();
   const [serviceDetails, setServiceDetails] = useState(null);
+  const [medias, setMedias] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Simulating data fetching
-    const service = mockServices.find(s => s.id === parseInt(id));
-    setServiceDetails(service);
+    const fetchServiceDetails = async () => {
+      try {
+        const service = await retrieveService(id);
+        setServiceDetails(service);
+        const mediaList = await retrieveServiceMedias(id);
+        setMedias(mediaList);
+      } catch (error) {
+        console.error('Error fetching service details or medias:', error);
+      }
+    };
+
+    fetchServiceDetails();
   }, [id]);
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? serviceDetails.images.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? medias.length - 1 : prevIndex - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === serviceDetails.images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) => (prevIndex === medias.length - 1 ? 0 : prevIndex + 1));
   };
 
   if (!serviceDetails) {
@@ -84,66 +61,98 @@ const ServiceDetailPage = () => {
             sx={{
               p: 3,
               height: '100%',
-              background: 'linear-gradient(to right, #6a11cb, #2575fc)', // Fond dégradé bleu
-              color: '#ffffff', // Texte en blanc pour contraste
+              background: 'linear-gradient(to right, #6a11cb, #2575fc)',
+              color: '#ffffff',
+              overflow: 'auto', // Pour fixer la taille du cadre
+              maxHeight: 'calc(100vh - 128px)', // Ajustement de la hauteur maximale
             }}
           >
             <Avatar sx={{ bgcolor: '#3f51b5', mb: 2 }}>
               <BuildIcon />
             </Avatar>
             <Typography variant="h6" sx={{ mb: 2 }}>
-              {serviceDetails.nom}
+              {serviceDetails.titre}
             </Typography>
-            <Typography variant="body1">
-              {serviceDetails.description}
-            </Typography>
-            <Typography variant="body1">
-              Localisation : {serviceDetails.localisation}
-            </Typography>
-            <Typography variant="body1">
-              Type : {serviceDetails.typeService}
-            </Typography>
+            <Box>
+              {[
+                { label: 'Description', value: serviceDetails.description },
+                { label: 'Publié par', value: serviceDetails.user?.nom },
+                { label: 'Date de publication', value: new Date(serviceDetails.date).toLocaleDateString() },
+              ].map((detail, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mb: 1,
+                    borderBottom: '1px solid #ffffff',
+                  }}
+                >
+                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                    {detail.label}:
+                  </Typography>
+                  <Typography variant="body1">
+                    {detail.value}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" color="primary" gutterBottom>
-              Images du service
+              Médias du service
             </Typography>
-            <Box sx={{ position: 'relative', width: '100%', height: 400 }}>
-              <IconButton
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: 0,
-                  transform: 'translateY(-50%)',
-                  zIndex: 1,
-                  backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                }}
-                onClick={handlePrev}
-              >
-                <ArrowBackIosIcon />
-              </IconButton>
-              <Box
-                component="img"
-                src={serviceDetails.images[currentIndex]}
-                alt={`Service ${currentIndex + 1}`}
-                sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <IconButton
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  right: 0,
-                  transform: 'translateY(-50%)',
-                  zIndex: 1,
-                  backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                }}
-                onClick={handleNext}
-              >
-                <ArrowForwardIosIcon />
-              </IconButton>
-            </Box>
+            {medias.length > 0 && (
+              <Box sx={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <IconButton
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: 0,
+                      transform: 'translateY(-50%)',
+                      zIndex: 1,
+                      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    }}
+                    onClick={handlePrev}
+                  >
+                    <ArrowBackIosIcon />
+                  </IconButton>
+                  <Box
+                    component="img"
+                    src={medias[currentIndex]?.lien}
+                    alt={`Média ${currentIndex + 1}`}
+                    sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <IconButton
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      right: 0,
+                      transform: 'translateY(-50%)',
+                      zIndex: 1,
+                      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    }}
+                    onClick={handleNext}
+                  >
+                    <ArrowForwardIosIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+            )}
           </Paper>
         </Grid>
       </Grid>
