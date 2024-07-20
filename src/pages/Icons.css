@@ -1,0 +1,40 @@
+.categories {
+    margin-bottom: 20px;
+  }
+  
+  .category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 30px;
+    transition: transform 0.2s;
+  }
+  
+  .category-item:hover {
+    transform: scale(1.1);
+    color: #f35525;
+  }
+  
+  .category-icon {
+    color: #1e1e1e; /* Couleur des icônes */
+    font-size: 1.5rem; /* Taille des icônes */
+    margin-bottom: 5px;
+  }
+  
+  .category-item span {
+    font-size: 14px;
+  }
+  
+  @media (max-width: 1024px) {
+    .category-icon {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 464px) {
+    .category-icon {
+      font-size: 1.2rem;
+    }
+  }
+  
