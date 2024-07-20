@@ -102,7 +102,9 @@ export async function validateLogement(id) {
         const response = await fetchWithAuth(`${API_URL}/logements/validate/${id}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                
+
             },
         });
 
